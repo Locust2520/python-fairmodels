@@ -10,6 +10,7 @@ class ModelProb:
     def __init__(self, preds, threshold, name=None):
         ModelProb.n += 1
         self.preds = np.array(preds)
+        self.y_hat = self.preds
         self.threshold = threshold
         if name:
             self.name = name
@@ -104,7 +105,7 @@ class FairnessObject:
         self.models = model_probs
         self.privileged = privileged
         self.protected = protected
-        self.label = groups
+        self.label = [m.name for m in model_probs]
         self.epsilon = epsilon
 
     def plot(self):

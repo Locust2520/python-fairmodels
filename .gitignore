@@ -1,3 +1,4 @@
-./__pycache__/
-./.idea/
-./test.py
+__pycache__
+fairmodels/__pycache__/*
+.idea
+test.py
