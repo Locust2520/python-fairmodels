@@ -1,23 +1,3 @@
-# [dev] python-fairmodels
-A Python adaptation from the R package [fairmodels](https://github.com/ModelOriented/fairmodels).
-
-## Installation
-First clone this repository:
-```shell
-git clone https://github.com/Locust2520/python-fairmodels
-cd python-fairmodels
-```
-
-Then install requirements:
-```shell
-pip install -r requirements
-```
-
-## Getting started
-For the moment, you can only test the module inside the repository.  
-Run `example.py` to see an example usage:
-
-```python
 import pandas as pd
 import numpy as np
 from fairmodels import *
@@ -46,10 +26,3 @@ plt = fobject.plot()
 plt += theme_minimal()  # changing the theme
 plt.show()
 plt.save("graphic.png")
-```
-
-That should output this figure:
-![](graphic.png)
-
-`fairmodels` embeds a modified version of [plotnine](https://github.com/has2k1/plotnine), which allows to plot
-ggplot2-like graphics with a very similar grammar.
