@@ -46,4 +46,4 @@ class CeterisParibusCutoff:
         self.subgroup = subgroup
 
     def plot(self):
-        plot_ceteris_paribus_cutoff(self)
+        return plot_ceteris_paribus_cutoff(self)

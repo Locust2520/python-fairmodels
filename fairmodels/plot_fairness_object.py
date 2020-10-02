@@ -3,9 +3,10 @@ import pandas as pd
 from .plotnine import *
 
 
-def plot_fairobject(fobject):
+def plot_fairobject(fobject, fairness_metrics=['acc', 'tpr', 'ppv', 'fpr', "stp"]):
     n_exp = len(fobject.models)
     data = fobject.fairness_check_data
+    data = data[data.metric.isin(fairness_metrics)]
     metrics = pd.unique(fobject.fairness_check_data.metric)
     n_met = len(metrics)
     epsilon = fobject.epsilon
@@ -55,7 +56,7 @@ def plot_fairobject(fobject):
           geom_bar(stat="identity", position="dodge") + \
           geom_hline(yintercept=0) + \
           coord_flip() + \
-          facet_wrap("~metric", ncol=1) + \
+          facet_wrap("~metric_name", ncol=1) + \
           scale_y_continuous(limits=(lower_bound, upper_bound),
                              breaks=breaks,
                              labels=breaks + 1) + \

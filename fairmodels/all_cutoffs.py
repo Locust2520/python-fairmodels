@@ -31,4 +31,4 @@ class AllCutoffs:
         self.cutoff_data = pd.DataFrame(cutoff_data)
 
     def plot(self):
-        plot_all_cutoffs(self)
+        return plot_all_cutoffs(self)
