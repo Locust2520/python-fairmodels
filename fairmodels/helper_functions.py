@@ -3,15 +3,24 @@ import pandas as pd
 from sklearn.metrics import confusion_matrix
 
 
-def group_matrices(protected, probs, y, cutoff) :
+def group_matrices(protected, probs, y, cutoff, groups=None) :
     gm = dict()
-    groups = np.unique(protected)
+    if groups is None:
+        groups = pd.unique(protected)
+    if isinstance(cutoff, dict):
+        cutoff_by_group = True
+    else:
+        cutoff_by_group = False
+        c = cutoff
+
     for group in groups:
         # we only care about the instances of a specific group (= class)
+        if cutoff_by_group :
+            c = cutoff[group]
         g_preds = probs[protected == group]
         g_y = y[protected == group]
         # computing basic metrics
-        tn, fp, fn, tp = confusion_matrix(g_y, g_preds > cutoff).flatten()
+        tn, fp, fn, tp = confusion_matrix(g_y, g_preds > c).flatten()
         gm[group] = {
             "tp": tp,
             "tn": tn,
@@ -57,6 +66,6 @@ def calculate_parity_loss(gmm, privileged) :
     loss = privileged_scores - privileged_scores
     # then do a sum
     for scores in all_groups_scores:
-        loss += np.abs(np.log(scores / privileged_scores))
+        loss += np.abs(scores - privileged_scores)
 
     return loss

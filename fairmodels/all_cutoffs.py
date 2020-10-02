@@ -1,4 +1,5 @@
 from .helper_functions import *
+from .plot_all_cutoffs import plot_all_cutoffs
 
 class AllCutoffs:
 
@@ -9,23 +10,25 @@ class AllCutoffs:
         privileged = fobject.privileged
 
         groups = pd.unique(protected)
-        n_subgroups = len(groups)
         cutoff_data = []
 
         for i in range(len(models)) :
             for c in cutoffs :
                 model = models[i]
-                gm = group_matrices(protected, model.y_hat, fobject.y, c)
+                gm = group_matrices(protected, model.y_hat, fobject.y, c, groups=groups)
                 gmm = calculate_group_fairness_metrics(gm)
                 gmm_loss = calculate_parity_loss(gmm, privileged)
                 gmm_loss_unique = gmm_loss[fairness_metrics]
 
                 for m in gmm_loss_unique :
                     cutoff_data.append({
-                        "partity_loss": gmm_loss_unique[m][0],
+                        "parity_loss": gmm_loss_unique[m][0],
                         "metric": m,
                         "cutoff": c,
                         "label": fobject.label[i]
                     })
 
         self.cutoff_data = pd.DataFrame(cutoff_data)
+
+    def plot(self):
+        plot_all_cutoffs(self)

@@ -1,7 +1,8 @@
 import numpy as np
 import pandas as pd
 from sklearn.metrics import confusion_matrix
-from fairmodels.plot_fairness_object import plot_fairobject
+from .plot_fairness_object import plot_fairobject
+from .plot_density import plot_density
 
 
 class ModelProb:
@@ -111,6 +112,9 @@ class FairnessObject:
 
     def plot(self):
         return plot_fairobject(self)
+
+    def plot_density(self):
+        return plot_density(self)
 
     def __plot__(self):
         return plot_fairobject(self)
