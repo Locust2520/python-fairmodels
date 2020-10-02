@@ -98,6 +98,7 @@ class FairnessObject:
                     })
         fairness_check_data = pd.DataFrame(fairness_check_data)
 
+        self.y = y
         self.parity_loss_metric_data = parity_loss_metric_data
         self.groups_data = groups_data
         self.groups_confusion_matrices = groups_confusion_matrices

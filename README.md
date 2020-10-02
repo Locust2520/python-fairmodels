@@ -14,7 +14,7 @@ pip install -r requirements
 ```
 
 ## Getting started
-For the moment, you can only test the module inside the repository.  
+For the moment, you can only test the module at the root of the repository.  
 Run `example.py` to see an example usage:
 
 ```python
