@@ -3,6 +3,7 @@ import pandas as pd
 from sklearn.metrics import confusion_matrix
 from .plot_fairness_object import plot_fairobject
 from .plot_density import plot_density
+from .plot_fairness_radar import plot_fairness_radar
 from .all_cutoffs import AllCutoffs
 from .ceteris_paribus_cutoff import CeterisParibusCutoff
 
@@ -164,6 +165,7 @@ class FairnessObject:
         self.privileged = privileged
         self.protected = protected
         self.label = [m.name for m in model_probs]
+        self.parity_loss_metric_data.index = self.label
         self.epsilon = epsilon
         self.all_cutoffs = None
         self.ceteris_paribus_cutoff = None
@@ -188,6 +190,9 @@ class FairnessObject:
         if self.ceteris_paribus_cutoff is None:
             self.ceteris_paribus_cutoff = CeterisParibusCutoff(self, subgroup, grid_points, fairness_metrics)
         return self.ceteris_paribus_cutoff.plot()
+
+    def plot_fairness_radar(self, fairness_metrics=['acc', 'tpr', 'ppv', 'fpr', 'stp']):
+        return plot_fairness_radar(self, fairness_metrics)
 
     def __plot__(self, **kwargs):
         return plot_fairobject(self, **kwargs)
