@@ -1,4 +1,4 @@
-from .helper_functions import *
+from .utils import *
 from .plot_all_cutoffs import plot_all_cutoffs
 
 class AllCutoffs:

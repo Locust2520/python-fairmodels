@@ -1,4 +1,4 @@
-from .helper_functions import *
+from .utils import *
 from .plot_ceteris_paribus_cutoff import plot_ceteris_paribus_cutoff
 
 class CeterisParibusCutoff:

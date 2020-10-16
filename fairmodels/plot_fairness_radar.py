@@ -16,6 +16,8 @@ def plot_fairness_radar(fobject, fairness_metrics=['acc', 'tpr', 'ppv', 'fpr', '
     mpl.rcParams['axes.prop_cycle'] = mpl.cycler("color", colors)
     mpl.rcParams['grid.color'] = "#dfdfdf"
     mpl.rcParams['axes.edgecolor'] = "#444444"
+    # mpl.rcParams['text.usetex'] = True
+    # mpl.rcParams['text.latex.preamble'] = "\\usepackage{color}"
     # mpl.rcParams["font.sans-serif"].insert(0, 'Helvetica')
 
     fig, ax = plt.subplots(subplot_kw={"polar": True})
@@ -23,12 +25,13 @@ def plot_fairness_radar(fobject, fairness_metrics=['acc', 'tpr', 'ppv', 'fpr', '
     ax.set_theta_offset(np.pi / 2)
     ax.set_theta_direction(-1)
     angles = np.linspace(0, 360, len(fairness_metrics)+1)
-    ax.set_thetagrids(angles[:-1], fairness_metrics)
+    # labels = ["\\textcolor{gray}{" + m + "}" for m in fairness_metrics]
+    labels = fairness_metrics
+    ax.set_thetagrids(angles[:-1], labels)
     ticks = np.linspace(0, np.max(data.to_numpy())*1.05, 5, endpoint=False)
     ticks = ticks.round(2)
     ax.set_rticks(ticks)
     ax.set_rlabel_position(0)
-
 
     for model in data.index :
         metrics = data.loc[model].to_numpy().tolist()
@@ -37,7 +40,7 @@ def plot_fairness_radar(fobject, fairness_metrics=['acc', 'tpr', 'ppv', 'fpr', '
     ax.legend(data.index)
     ax.set_title("Parity loss metric radar plot")
 
-    return ax, fig
+    return fig
 
 
 def color_cycle(colormap, n=3) :

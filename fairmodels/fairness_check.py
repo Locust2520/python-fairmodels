@@ -6,6 +6,9 @@ from .plot_density import plot_density
 from .plot_fairness_radar import plot_fairness_radar
 from .all_cutoffs import AllCutoffs
 from .ceteris_paribus_cutoff import CeterisParibusCutoff
+from .plot_fairness_heatmap import plot_fairness_heatmap
+from .fairness_pca import FairnessPCA
+from .plot_fairness_pca import plot_fairness_pca
 
 
 class ModelProb:
@@ -169,6 +172,7 @@ class FairnessObject:
         self.epsilon = epsilon
         self.all_cutoffs = None
         self.ceteris_paribus_cutoff = None
+        self.fairness_pca = None
 
     def plot(self, **kwargs):
         return plot_fairobject(self, **kwargs)
@@ -193,6 +197,14 @@ class FairnessObject:
 
     def plot_fairness_radar(self, fairness_metrics=['acc', 'tpr', 'ppv', 'fpr', 'stp']):
         return plot_fairness_radar(self, fairness_metrics)
+
+    def plot_fairness_heatmap(self, fairness_metrics=None):
+        return plot_fairness_heatmap(self, fairness_metrics)
+
+    def plot_fairness_pca(self, fairness_metrics=['acc', 'tpr', 'ppv', 'fpr', 'stp']):
+        if (self.fairness_pca is None) :
+            self.fairness_pca = FairnessPCA(self, fairness_metrics)
+        plot_fairness_pca(self.fairness_pca)
 
     def __plot__(self, **kwargs):
         return plot_fairobject(self, **kwargs)
