@@ -38,31 +38,31 @@ class FairMetric:
 def basic_metrics():
     # Definition of basic fair metrics
     def tpr(tp, tn, fp, fn):
-        return tp / (tp + fn)
+        return tp / (tp + fn + 1)
 
     def tnr(tp, tn, fp, fn):
-        return tn / (tn + fp)
+        return tn / (tn + fp + 1)
 
     def ppv(tp, tn, fp, fn):
-        return tp / (tp + fp)
+        return tp / (tp + fp + 1)
 
     def npv(tp, tn, fp, fn):
-        return tn / (tn + fn)
+        return tn / (tn + fn + 1)
 
     def fnr(tp, tn, fp, fn):
-        return fn / (fn + tp)
+        return fn / (fn + tp + 1)
 
     def fpr(tp, tn, fp, fn):
-        return fp / (fp + tn)
+        return fp / (fp + tn + 1)
 
     def fdr(tp, tn, fp, fn):
-        return fp / (fp + tp)
+        return fp / (fp + tp + 1)
 
     def for_(tp, tn, fp, fn):
-        return fn / (fn + tn)
+        return fn / (fn + tn + 1)
 
     def ts(tp, tn, fp, fn):
-        return tp / (tp + fn + fp)
+        return tp / (tp + fn + fp + 1)
 
     def stp(tp, tn, fp, fn):
         return (tp + fp) / (tp + fn + fp + tn)
@@ -76,12 +76,12 @@ def basic_metrics():
         return 2 * ppv_ * tpr_ / (ppv_ + tpr_)
 
     return [
-        FairMetric(tpr, "tpr", "Equal opportunity ratio     TP/(TP + FN)"),
+        FairMetric(tpr, "tpr", "Equal opportunity ratio = TP/(TP + FN)"),
         FairMetric(tnr, "tnr"),
-        FairMetric(ppv, "ppv", "Predictive parity ratio     TP/(TP + FP)"),
+        FairMetric(ppv, "ppv", "Predictive parity ratio = TP/(TP + FP)"),
         FairMetric(npv, "npv"),
         FairMetric(fnr, "fnr"),
-        FairMetric(fpr, "fpr", "Predictive equality ratio   FP/(FP + TN)"),
+        FairMetric(fpr, "fpr", "Predictive equality ratio = FP/(FP + TN)"),
         FairMetric(fdr, "fdr"),
         FairMetric(for_, "for"),
         FairMetric(ts , "ts"),
@@ -138,6 +138,7 @@ class FairnessObject:
             # then do a sum
             for scores in all_groups_scores:
                 loss += np.abs(np.log(scores / privileged_scores))
+                # +1 ?
 
             parity_loss_metric_data = parity_loss_metric_data.append(loss)
 
@@ -204,7 +205,7 @@ class FairnessObject:
     def plot_fairness_pca(self, fairness_metrics=['acc', 'tpr', 'ppv', 'fpr', 'stp']):
         if (self.fairness_pca is None) :
             self.fairness_pca = FairnessPCA(self, fairness_metrics)
-        plot_fairness_pca(self.fairness_pca)
+        return plot_fairness_pca(self.fairness_pca)
 
     def __plot__(self, **kwargs):
         return plot_fairobject(self, **kwargs)
